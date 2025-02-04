@@ -81,12 +81,19 @@ public class CreditAccount {
 
         double result = this.creditLimit - this.balance;
 
-        String formattedBalance = numberFormatter.format(result);
+        String formattedCredit = numberFormatter.format(result);
 
-        return formattedBalance;
+        return formattedCredit;
     }
 
-    public void addCharge() {}
+    public boolean addCharge(double amount) {
+        if (this.balance + amount > creditLimit) {
+            return false;
+        } else {
+            this.balance += amount;
+            return true;
+        }
+    }
 
     public void calculateMinimumPayment() {}
 
