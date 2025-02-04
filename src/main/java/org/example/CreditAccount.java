@@ -115,5 +115,5 @@ public class CreditAccount {
     }
 }
  /*
- Questions: Best format for cardNumber (BigInteger/String)? Best format for Expiration Date? Validity Checkers?
+ Questions: Best format for cardNumber (BigInteger/String)? Validity Checkers?
   */
