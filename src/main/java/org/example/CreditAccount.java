@@ -76,8 +76,14 @@ public class CreditAccount {
                 (currentDate.getYear() == this.expirationYear && currentDate.getMonthValue() > this.expirationMonth);
     }
 
-    public double creditRemaining() {
-        return 0;
+    public String creditRemaining() {
+        NumberFormat numberFormatter = NumberFormat.getCurrencyInstance();
+
+        double result = this.creditLimit - this.balance;
+
+        String formattedBalance = numberFormatter.format(result);
+
+        return formattedBalance;
     }
 
     public void addCharge() {}
