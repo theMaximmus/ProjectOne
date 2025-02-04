@@ -2,20 +2,23 @@ package org.example;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 
 public class CreditAccount {
     private double balance; // amount owed
     private double interestRate;
     private double creditLimit; // the maximum amount that can be charged
     private String cardNumber; // can be up to 16 digits long
-    private String expirationMonthAndYear;
+    private int expirationMonth;
+    private int expirationYear;
 
-    public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber, String expirationMonthAndYear) {
+    public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber, int expirationMonth, int expirationYear) {
         this.balance = balance;
         this.interestRate = interestRate;
         this.creditLimit = creditLimit;
         this.cardNumber = cardNumber;
-        this.expirationMonthAndYear = expirationMonthAndYear;
+        this.expirationMonth = expirationMonth;
+        this.expirationYear = expirationYear;
     }
 
     public double getBalance() {
@@ -51,17 +54,31 @@ public class CreditAccount {
         this.cardNumber = cardNumber;
     }
 
-    public String getExpirationMonthAndYear() {
-        return expirationMonthAndYear;
+    public int getExpirationMonth() {
+        return expirationMonth;
     }
 
-    public void setExpirationMonthAndYear(String expirationMonthAndYear) {
-        this.expirationMonthAndYear = expirationMonthAndYear;
+    public void setExpirationMonth(int expirationMonth) {
+        this.expirationMonth = expirationMonth;
     }
 
-    public boolean isExpired() {}
+    public int getExpirationYear() {
+        return expirationYear;
+    }
 
-    public double creditRemaining() {}
+    public void setExpirationYear(int expirationYear) {
+        this.expirationYear = expirationYear;
+    }
+
+    public boolean isExpired() {
+        LocalDate currentDate = LocalDate.now();
+        return (currentDate.getYear() > this.expirationYear) ||
+                (currentDate.getYear() == this.expirationYear && currentDate.getMonthValue() > this.expirationMonth);
+    }
+
+    public double creditRemaining() {
+        return 0;
+    }
 
     public void addCharge() {}
 
@@ -71,7 +88,9 @@ public class CreditAccount {
 
     public void addInterest() {}
 
-    public int howLongToPayOff() {}
+    public int howLongToPayOff() {
+        return 0;
+    }
 
     // Extra credit
     public void transferAccount() {}
@@ -92,9 +111,9 @@ public class CreditAccount {
                 "\tInterest Rate: " + formattedInterestRate + "\n" +
                 "\tCredit Limit: " + formattedCreditLimit +"\n" +
                 "\tCard Number: " + cardNumber +"\n" +
-                "\tExpiration Date: " + expirationMonthAndYear;
+                "\tExpiration Date: " + expirationMonth + "/" + expirationYear;
     }
 }
  /*
- Questions: Best format for cardNumber? Best format for Expiration Date? Validity Checkers?
+ Questions: Best format for cardNumber (BigInteger/String)? Best format for Expiration Date? Validity Checkers?
   */
