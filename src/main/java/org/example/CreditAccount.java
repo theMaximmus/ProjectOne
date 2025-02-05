@@ -12,6 +12,10 @@ public class CreditAccount {
     private int expirationMonth;
     private int expirationYear;
 
+    private static final int FIRST_MONTH = 1;
+    private static final int LAST_MONTH = 12;
+    private static final int FIRST_YEAR = 0;
+
     public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber, int expirationMonth, int expirationYear) {
         this.balance = balance;
         this.interestRate = interestRate;
@@ -59,7 +63,11 @@ public class CreditAccount {
     }
 
     public void setExpirationMonth(int expirationMonth) {
-        this.expirationMonth = expirationMonth;
+        if (expirationMonth >= FIRST_MONTH && expirationMonth <= LAST_MONTH) {
+            this.expirationMonth = expirationMonth;
+        } else {
+            System.out.println("Entered invalid month of expiration");
+        }
     }
 
     public int getExpirationYear() {
@@ -67,7 +75,12 @@ public class CreditAccount {
     }
 
     public void setExpirationYear(int expirationYear) {
-        this.expirationYear = expirationYear;
+        if (expirationYear >= FIRST_YEAR) {
+            this.expirationYear = expirationYear;
+        } else {
+            System.out.println("Entered invalid year of expiration");
+        }
+
     }
 
     public boolean isExpired() {

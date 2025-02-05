@@ -20,10 +20,13 @@ public class Main {
 
         System.out.println("----- Test Case A -----");
         CreditAccount A = new CreditAccount(199, 0.055, 500, "5555_5555_5555_5555", 2, 2025);
+        System.out.println(A.addCharge(200));
+        System.out.println(A.getBalance());
+        System.out.println(A.creditRemaining());
 
         System.out.println("----- Test Case B -----");
         CreditAccount B = new CreditAccount(0, 0.069, 5000, "9999_9999_9999_9999", 2, 2025);
-
+        System.out.println(A.addCharge(1500));
         System.out.println("----- Test Case C -----");
 //        CreditAccount A = new CreditAccount(199, 0.055, 500, "5555_5555_5555_5555", 2, 2025);
     }
