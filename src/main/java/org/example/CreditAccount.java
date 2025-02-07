@@ -118,8 +118,15 @@ public class CreditAccount {
         return 0;
     }
 
-    // Extra credit
-    public void transferAccount() {}
+    // Extra credit  TODO: third condition of transfer
+    public boolean transferAccount(CreditAccount transferTarget) {
+        if ( ((this.getBalance() + this.getBalance() * 0.01) < transferTarget.getCreditLimit()) && (this.creditLimit < transferTarget.getCreditLimit()) && (this.interestRate < transferTarget.getInterestRate()) ) {
+            CreditAccount instance = new CreditAccount();
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public String toString() {
