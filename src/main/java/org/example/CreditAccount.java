@@ -15,6 +15,9 @@ public class CreditAccount {
     private static final int FIRST_MONTH = 1;
     private static final int LAST_MONTH = 12;
     private static final int FIRST_YEAR = 0;
+    private static final double MIN_PAYMENT_THRESHOLD = 25.0;
+    private static final double HIGH_BALANCE_THRESHOLD = 1000.0;
+    private static final double HIGH_BALANCE_PERCENT = 0.02;
 
     public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber, int expirationMonth, int expirationYear) {
         this.balance = balance;
@@ -108,11 +111,32 @@ public class CreditAccount {
         }
     }
 
-    public void calculateMinimumPayment() {}
+    public void calculateMinimumPayment() {
+        if (balance <= MIN_PAYMENT_THRESHOLD) {
+            return balance;
+        } else if (balance < HIGH_BALANCE_THRESHOLD) {
+            return MIN_PAYMENT_THRESHOLD;
+        } else {
+            return balance * HIGH_BALANCE_PERCENT;
+        }
+    }
 
-    public void makePayment() {}
+    public void makePayment(double amount) {
+        if (amount >= balance) {
+            balance = 0;
+        } else {
+            balance -= amount;
+        }
+    }
 
-    public void addInterest() {}
+     public void makePayment() {
+        double minPayment = calculateMinimumPayment();
+        makePayment(minPayment);
+    }
+
+    public void addInterest() {
+        balance += balance * (interestRate / 12);
+    }
 
     public int howLongToPayOff() {
         return 0;
