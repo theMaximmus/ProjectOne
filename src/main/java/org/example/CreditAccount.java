@@ -139,7 +139,20 @@ public class CreditAccount {
     }
 
     public int howLongToPayOff() {
-        return 0;
+        double tempBalance = this.balance;
+        int months = 0;
+        while (tempBalance > 0) {
+            double minPayment = (tempBalance <= MIN_PAYMENT_THRESHOLD) ? tempBalance :
+                                (tempBalance < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD :
+                                (tempBalance * HIGH_BALANCE_PERCENT);
+            tempBalance -= minPayment;
+            tempBalance += tempBalance * (interestRate / 12);
+            months++;
+            if (months > 1000) { 
+                return -1;
+            }
+        }
+        return months;
     }
 
     // Extra credit  TODO: third condition of transfer
