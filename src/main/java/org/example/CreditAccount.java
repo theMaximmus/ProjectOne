@@ -19,7 +19,10 @@ public class CreditAccount {
     private static final double HIGH_BALANCE_THRESHOLD = 1000.0;
     private static final double HIGH_BALANCE_PERCENT = 0.02;
 
-    public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber, int expirationMonth, int expirationYear) {
+    private static final DecimalFormat df = new DecimalFormat("#.##");
+
+    public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber,
+            int expirationMonth, int expirationYear) {
         this.balance = balance;
         this.interestRate = interestRate;
         this.creditLimit = creditLimit;
@@ -29,7 +32,7 @@ public class CreditAccount {
     }
 
     public double getBalance() {
-        return balance;
+        return Double.parseDouble(df.format(balance));
     }
 
     public void setBalance(double balance) {
@@ -111,7 +114,7 @@ public class CreditAccount {
         }
     }
 
-    public void calculateMinimumPayment() {
+    public double calculateMinimumPayment() {
         if (balance <= MIN_PAYMENT_THRESHOLD) {
             return balance;
         } else if (balance < HIGH_BALANCE_THRESHOLD) {
@@ -129,7 +132,7 @@ public class CreditAccount {
         }
     }
 
-     public void makePayment() {
+    public void makePayment() {
         double minPayment = calculateMinimumPayment();
         makePayment(minPayment);
     }
@@ -142,27 +145,41 @@ public class CreditAccount {
         double tempBalance = this.balance;
         int months = 0;
         while (tempBalance > 0) {
-            double minPayment = (tempBalance <= MIN_PAYMENT_THRESHOLD) ? tempBalance :
-                                (tempBalance < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD :
-                                (tempBalance * HIGH_BALANCE_PERCENT);
+            double minPayment = (tempBalance <= MIN_PAYMENT_THRESHOLD) ? tempBalance
+                    : (tempBalance < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD
+                            : (tempBalance * HIGH_BALANCE_PERCENT);
             tempBalance -= minPayment;
             tempBalance += tempBalance * (interestRate / 12);
             months++;
-            if (months > 1000) { 
+            if (months > 1000) {
                 return -1;
             }
         }
         return months;
     }
 
-    // Extra credit  TODO: third condition of transfer
+    // Extra credit
     public boolean transferAccount(CreditAccount transferTarget) {
-        if ( ((this.getBalance() + this.getBalance() * 0.01) < transferTarget.getCreditLimit()) && (this.creditLimit < transferTarget.getCreditLimit()) && (this.interestRate < transferTarget.getInterestRate()) ) {
-            CreditAccount instance = new CreditAccount();
-            return true;
+        double transferBalance = this.getBalance() * 1.01;
+        double remainingCredit = transferTarget.getCreditLimit() - transferTarget.getBalance();
+        
+        if (transferBalance > remainingCredit) {
+            return false;
         }
 
-        return false;
+        if (this.getCreditLimit() >= transferTarget.getCreditLimit()) {
+            return false;
+        }
+        if (this.interestRate <= transferTarget.getInterestRate()) {
+            return false;
+        }
+        if (transferTarget.howLongToPayOff() >= (this.howLongToPayOff() / 2)) {
+            return false;
+        }
+
+        transferTarget.balance += transferBalance;
+        this.balance = 0;
+        return true;
     }
 
     @Override
@@ -179,11 +196,11 @@ public class CreditAccount {
         return "Your CreditAccount: \n" +
                 "\tBalance: " + formattedBalance + "\n" +
                 "\tInterest Rate: " + formattedInterestRate + "\n" +
-                "\tCredit Limit: " + formattedCreditLimit +"\n" +
-                "\tCard Number: " + cardNumber +"\n" +
+                "\tCredit Limit: " + formattedCreditLimit + "\n" +
+                "\tCard Number: " + cardNumber + "\n" +
                 "\tExpiration Date: " + expirationMonth + "/" + expirationYear;
     }
 }
- /*
- Questions: Best format for cardNumber (BigInteger/String)? Validity Checkers?
-  */
+/*
+ * Questions: Best format for cardNumber (BigInteger/String)? Validity Checkers?
+ */
