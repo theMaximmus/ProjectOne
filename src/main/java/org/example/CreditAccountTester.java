@@ -149,14 +149,12 @@ public class CreditAccountTester {
         testCredit(B, "$4,874.00");
 
         //make minimum payment
-        B.calculateMinimumPayment();
-        B.makePayment();
+        B.makePayment(B.calculateMinimumPayment());
         testBalance(B, 101);
         testCredit(B, "$4,899.00");
 
         //make minimum payment
-        B.calculateMinimumPayment();
-        B.makePayment();
+        B.makePayment(B.calculateMinimumPayment());
         testBalance(B, 76);
         testCredit(B, "$4,924.00");
 
@@ -166,13 +164,12 @@ public class CreditAccountTester {
         testCredit(B, "$4,923.57");
 
         //make payment of 60
-        B.makePayment();
+        B.makePayment(60);
         testBalance(B, 16.43);
         testCredit(B, "$4,983.57");
 
         //make minimum payment
-        B.calculateMinimumPayment();
-        B.makePayment();
+        B.makePayment(B.calculateMinimumPayment());
         testBalance(B, 0);
         testCredit(B, "$5,000.00");
 

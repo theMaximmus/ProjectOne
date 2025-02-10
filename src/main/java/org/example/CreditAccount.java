@@ -32,7 +32,7 @@ public class CreditAccount {
     }
 
     public double getBalance() {
-        return Double.parseDouble(df.format(balance));
+        return Double.parseDouble(df.format(this.balance));
     }
 
     public void setBalance(double balance) {
@@ -115,20 +115,20 @@ public class CreditAccount {
     }
 
     public double calculateMinimumPayment() {
-        if (balance <= MIN_PAYMENT_THRESHOLD) {
-            return balance;
-        } else if (balance < HIGH_BALANCE_THRESHOLD) {
+        if (this.balance <= MIN_PAYMENT_THRESHOLD) {
+            return this.balance;
+        } else if (this.balance < HIGH_BALANCE_THRESHOLD) {
             return MIN_PAYMENT_THRESHOLD;
         } else {
-            return balance * HIGH_BALANCE_PERCENT;
+            return this.balance * HIGH_BALANCE_PERCENT;
         }
     }
 
     public void makePayment(double amount) {
-        if (amount >= balance) {
-            balance = 0;
+        if (amount >= this.balance) {
+            this.balance = 0;
         } else {
-            balance -= amount;
+            this.balance -= amount;
         }
     }
 
@@ -138,18 +138,19 @@ public class CreditAccount {
     }
 
     public void addInterest() {
-        balance += balance * (interestRate / 12);
+        this.balance += this.balance * (this.interestRate / 12);
     }
 
     public int howLongToPayOff() {
-        double tempBalance = this.balance;
+        CreditAccount testCreditAccount = new CreditAccount(this.balance, this.interestRate, this.creditLimit, this.cardNumber, this.expirationMonth, this.expirationYear);
+//        double tempBalance = this.balance;
         int months = 0;
-        while (tempBalance > 0) {
-            double minPayment = (tempBalance <= MIN_PAYMENT_THRESHOLD) ? tempBalance
-                    : (tempBalance < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD
-                            : (tempBalance * HIGH_BALANCE_PERCENT);
-            tempBalance -= minPayment;
-            tempBalance += tempBalance * (interestRate / 12);
+        while (testCreditAccount.getBalance() > 0) {
+            double minPayment = (testCreditAccount.getBalance() <= MIN_PAYMENT_THRESHOLD) ? testCreditAccount.getBalance()
+                    : (testCreditAccount.getBalance() < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD
+                            : (testCreditAccount.getBalance() * HIGH_BALANCE_PERCENT);
+            testCreditAccount.balance -= minPayment;
+            testCreditAccount.balance += testCreditAccount.getBalance() * (testCreditAccount.interestRate / 12);
             months++;
             if (months > 1000) {
                 return -1;
@@ -161,9 +162,9 @@ public class CreditAccount {
     // Extra credit
     public boolean transferAccount(CreditAccount transferTarget) {
         double transferBalance = this.getBalance() * 1.01;
-        double remainingCredit = transferTarget.getCreditLimit() - transferTarget.getBalance();
+        double remainingCredit = transferTarget.getCreditLimit() - transferBalance;
         
-        if (transferBalance > remainingCredit) {
+        if (remainingCredit > 0) {
             return false;
         }
 
@@ -201,6 +202,4 @@ public class CreditAccount {
                 "\tExpiration Date: " + expirationMonth + "/" + expirationYear;
     }
 }
-/*
- * Questions: Best format for cardNumber (BigInteger/String)? Validity Checkers?
- */
+
