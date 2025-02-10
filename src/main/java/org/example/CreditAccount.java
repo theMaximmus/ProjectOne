@@ -164,22 +164,16 @@ public class CreditAccount {
         double transferBalance = this.getBalance() * 1.01;
         double remainingCredit = transferTarget.getCreditLimit() - transferBalance;
         
-        if (remainingCredit > 0) {
+        if ( ( remainingCredit < 0 ) &&
+        ( this.getCreditLimit() >= transferTarget.getCreditLimit() ) &&
+                ( this.interestRate <= transferTarget.getInterestRate() ) &&
+                ( transferTarget.howLongToPayOff() >= ( this.howLongToPayOff() / 2 ) ) ) {
             return false;
+        } else {
+            transferTarget.balance += transferBalance;
+            this.balance = 0;
         }
 
-        if (this.getCreditLimit() >= transferTarget.getCreditLimit()) {
-            return false;
-        }
-        if (this.interestRate <= transferTarget.getInterestRate()) {
-            return false;
-        }
-        if (transferTarget.howLongToPayOff() >= (this.howLongToPayOff() / 2)) {
-            return false;
-        }
-
-        transferTarget.balance += transferBalance;
-        this.balance = 0;
         return true;
     }
 

@@ -238,5 +238,7 @@ public class CreditAccountTester {
         if (allTests) {
             System.out.println("\n**********TEST CASE EXTRA PASSED**********");
         }
+
+        System.out.println((0.12 > 0.05));
     }   
 }
