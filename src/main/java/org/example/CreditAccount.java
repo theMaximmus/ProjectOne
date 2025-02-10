@@ -157,12 +157,20 @@ public class CreditAccount {
 
     // Extra credit  TODO: third condition of transfer
     public boolean transferAccount(CreditAccount transferTarget) {
-        if ( ((this.getBalance() + this.getBalance() * 0.01) < transferTarget.getCreditLimit()) && (this.creditLimit < transferTarget.getCreditLimit()) && (this.interestRate < transferTarget.getInterestRate()) ) {
-            CreditAccount instance = new CreditAccount();
-            return true;
+        double balanceWithFee = this.balance * 1.01; 
+
+        if (balanceWithFee > transferTarget.getCreditLimit() - transferTarget.getBalance()) {
+            return false;
         }
 
-        return false;
+        if (this.interestRate <= transferTarget.getInterestRate()) {
+            return false;
+        }
+
+        transferTarget.setBalance(transferTarget.getBalance() + balanceWithFee);
+        this.setBalance(0);
+
+        return true;
     }
 
     @Override
