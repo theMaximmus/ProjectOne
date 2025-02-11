@@ -111,7 +111,7 @@ public class CreditAccount {
         }
     }
 
-    public void calculateMinimumPayment() {
+    public double calculateMinimumPayment() {
         if (balance <= MIN_PAYMENT_THRESHOLD) {
             return balance;
         } else if (balance < HIGH_BALANCE_THRESHOLD) {
@@ -163,7 +163,11 @@ public class CreditAccount {
             return false;
         }
 
-        if (this.interestRate <= transferTarget.getInterestRate()) {
+        if (this.interestRate >= transferTarget.getInterestRate()) {
+            return false;
+        }
+
+        if ( (this.howLongToPayOff() / 2) >= transferTarget.howLongToPayOff()) {
             return false;
         }
 
@@ -192,6 +196,3 @@ public class CreditAccount {
                 "\tExpiration Date: " + expirationMonth + "/" + expirationYear;
     }
 }
- /*
- Questions: Best format for cardNumber (BigInteger/String)? Validity Checkers?
-  */
