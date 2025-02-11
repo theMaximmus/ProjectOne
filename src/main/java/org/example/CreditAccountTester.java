@@ -212,26 +212,31 @@ public class CreditAccountTester {
         CreditAccount extra1 = new CreditAccount(5149, 0.15, 10000, "1234_1234_1234_1234", 2, 2025);
         CreditAccount new1 = new CreditAccount(0, 0.05, 5200, "1234_1234_1234_1234", 2, 2025);
         testExtra(extra1, new1, false);
+        System.out.println("Extra1" + "\n");
 
         CreditAccount extra2 = new CreditAccount(5000, 0.16, 10000, "1234_1234_1234_1234", 2, 2025);
         CreditAccount new2 = new CreditAccount(1000, 0.03, 15000, "1234_1234_1234_1234", 2, 2025);
         testExtra(extra2, new2, true);
         testBalance(extra2, 0);
         testBalance(new2, 6050);
+        System.out.println("Extra2" + "\n");
 
         CreditAccount extra3 = new CreditAccount(2000, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
         CreditAccount new3 = new CreditAccount(100, 0.05, 5000, "1234_1234_1234_1234", 2, 2025);
         testExtra(extra3, new3, false);
+        System.out.println("Extra3" + "\n");
 
         CreditAccount extra4 = new CreditAccount(2000, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
         CreditAccount new4 = new CreditAccount(100, 0.15, 15000, "1234_1234_1234_1234", 2, 2025);
         testExtra(extra4, new4, false);
+        System.out.println("Extra4" + "\n");
 
         CreditAccount extra5 = new CreditAccount(2000, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
         CreditAccount new5 = new CreditAccount(100, 0.075, 15000, "1234_1234_1234_1234", 2, 2025);
         testExtra(extra5, new5, true);
         testBalance(extra5, 0);
         testBalance(new5, 2120);
+        System.out.println("Extra5" + "\n");
 
         if (allTests) {
             System.out.println("\n**********TEST CASE EXTRA PASSED**********");

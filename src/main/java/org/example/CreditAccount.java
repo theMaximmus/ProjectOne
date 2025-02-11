@@ -19,6 +19,8 @@ public class CreditAccount {
     private static final double HIGH_BALANCE_THRESHOLD = 1000.0;
     private static final double HIGH_BALANCE_PERCENT = 0.02;
 
+    private static final DecimalFormat df = new DecimalFormat("#.##");
+
     public CreditAccount(double balance, double interestRate, double creditLimit, String cardNumber, int expirationMonth, int expirationYear) {
         this.balance = balance;
         this.interestRate = interestRate;
@@ -29,7 +31,7 @@ public class CreditAccount {
     }
 
     public double getBalance() {
-        return balance;
+        return Double.parseDouble(df.format(this.balance));
     }
 
     public void setBalance(double balance) {
@@ -139,16 +141,16 @@ public class CreditAccount {
     }
 
     public int howLongToPayOff() {
-        double tempBalance = this.balance;
+        CreditAccount testCreditAccount = new CreditAccount(this.balance, this.interestRate, this.creditLimit, this.cardNumber, this.expirationMonth, this.expirationYear);
         int months = 0;
-        while (tempBalance > 0) {
-            double minPayment = (tempBalance <= MIN_PAYMENT_THRESHOLD) ? tempBalance :
-                                (tempBalance < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD :
-                                (tempBalance * HIGH_BALANCE_PERCENT);
-            tempBalance -= minPayment;
-            tempBalance += tempBalance * (interestRate / 12);
+        while (testCreditAccount.getBalance() > 0) {
+            double minPayment = (testCreditAccount.getBalance() <= MIN_PAYMENT_THRESHOLD) ? testCreditAccount.getBalance()
+                    : (testCreditAccount.getBalance() < HIGH_BALANCE_THRESHOLD) ? MIN_PAYMENT_THRESHOLD
+                    : (testCreditAccount.getBalance() * HIGH_BALANCE_PERCENT);
+            testCreditAccount.balance -= minPayment;
+            testCreditAccount.balance += testCreditAccount.getBalance() * (testCreditAccount.interestRate / 12);
             months++;
-            if (months > 1000) { 
+            if (months > 1000) {
                 return -1;
             }
         }
