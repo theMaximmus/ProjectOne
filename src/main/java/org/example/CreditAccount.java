@@ -161,22 +161,33 @@ public class CreditAccount {
     public boolean transferAccount(CreditAccount transferTarget) {
         double balanceWithFee = this.balance * 1.01; 
 
-        if (balanceWithFee > transferTarget.getCreditLimit() - transferTarget.getBalance()) {
+        if (transferTarget.getCreditLimit() < transferTarget.getBalance() + balanceWithFee) {
             return false;
         }
 
-        if (this.interestRate >= transferTarget.getInterestRate()) {
+//        if (this.interestRate >= transferTarget.getInterestRate()) {
+//            return false;
+//        }
+//
+//        if ( (this.howLongToPayOff() / 2) >= transferTarget.howLongToPayOff()) {
+//            return false;
+//        }
+
+        if (transferTarget.creditLimit > this.creditLimit ||
+                transferTarget.interestRate < this.interestRate ||
+                howLongToPayOff() < 0.5 * howLongToPayOff()) {
+
+            // Transfer the balance and pay off the original account
+            transferTarget.balance += balanceWithFee;
+            this.balance = 0; // Original account is paid off
+            return true;
+        } else {
             return false;
-        }
+            }
+//        transferTarget.setBalance(transferTarget.getBalance() + balanceWithFee);
+//        this.setBalance(0);
 
-        if ( (this.howLongToPayOff() / 2) >= transferTarget.howLongToPayOff()) {
-            return false;
-        }
-
-        transferTarget.setBalance(transferTarget.getBalance() + balanceWithFee);
-        this.setBalance(0);
-
-        return true;
+//        return true;
     }
 
     @Override
