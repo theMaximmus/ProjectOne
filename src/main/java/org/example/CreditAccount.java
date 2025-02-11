@@ -173,8 +173,8 @@ public class CreditAccount {
 //            return false;
 //        }
 
-        if (transferTarget.creditLimit > this.creditLimit ||
-                transferTarget.interestRate < this.interestRate ||
+        if (transferTarget.creditLimit > this.creditLimit &&
+                transferTarget.interestRate < this.interestRate &&
                 howLongToPayOff() < 0.5 * howLongToPayOff()) {
 
             // Transfer the balance and pay off the original account
