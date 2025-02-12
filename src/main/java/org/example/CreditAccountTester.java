@@ -209,57 +209,38 @@ public class CreditAccountTester {
         System.out.println("\n------------------------------------Extra Test Cases------------------------------------");
         allTests = true;
 
-        // Test Case must succeed because there is enough credit remaining for the transfer balance.
-        CreditAccount extra1 = new CreditAccount(100, 0.07, 100, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new1 = new CreditAccount(0, 0.05, 101, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra1, new1, true);
+        // Transfer failed because there is not enough available credit in the new account
         System.out.println("Extra1" + "\n");
+        CreditAccount extra1 = new CreditAccount(5149, 0.15, 10000, "1234_1234_1234_1234", 2, 2025);
+        CreditAccount new1 = new CreditAccount(0, 0.05, 5200, "1234_1234_1234_1234", 2, 2025);
+        testExtra(extra1, new1, false);
 
-        // Test Case must fail because there is not enough credit remaining for the transfer balance.
-        CreditAccount extra2 = new CreditAccount(100, 0.07, 100, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new2 = new CreditAccount(20, 0.05, 101, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra2, new2, false);
+        // Transfer succeeded
         System.out.println("Extra2" + "\n");
+        CreditAccount extra2 = new CreditAccount(5000, 0.16, 10000, "1234_1234_1234_1234", 2, 2025);
+        CreditAccount new2 = new CreditAccount(1000, 0.03, 15000, "1234_1234_1234_1234", 2, 2025);
+        testExtra(extra2, new2, true);
 
-        // Test Case must succeed because it does have a higher credit limit.
-        CreditAccount extra3 = new CreditAccount(100, 0.15, 10000, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new3 = new CreditAccount(100, 0.05, 11000, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra3, new3, true);
+        // Transfer failed because the new account does not have a higher credit limit than the current account
         System.out.println("Extra3" + "\n");
+        CreditAccount extra3 = new CreditAccount(2000, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
+        CreditAccount new3 = new CreditAccount(100, 0.05, 5000, "1234_1234_1234_1234", 2, 2025);
+        testExtra(extra3, new3, false);
 
-        // Test Case must fail because it does not have a lower credit limit.
-        CreditAccount extra4 = new CreditAccount(100, 0.15, 10000, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new4 = new CreditAccount(100, 0.05, 9000, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra4, new4, false);
+        // Transfer failed because it will take 217 months to pay off the original account and 152 to pay off the account if it was transferred. this is not less than 1/2 the number of months.
         System.out.println("Extra4" + "\n");
+        CreditAccount extra4 = new CreditAccount(2000, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
+        CreditAccount new4 = new CreditAccount(100, 0.15, 15000, "1234_1234_1234_1234", 2, 2025);
+        testExtra(extra4, new4, false);
 
-        // Test Case must succeed because it does have a lower interest rate.
-        CreditAccount extra5 = new CreditAccount(100, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new5 = new CreditAccount(100, 0.05, 10000, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra5, new5, true);
+        // Transfer succeeded
         System.out.println("Extra5" + "\n");
-
-        // Test Case must fail because it does not have a lower interest rate.
-        CreditAccount extra6 = new CreditAccount(100, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new6 = new CreditAccount(100, 0.20, 10000, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra6, new6, false);
-        System.out.println("Extra6" + "\n");
-
-        // Test Case must succeed because it takes less time to pay-off using a minimum payment
-        CreditAccount extra7 = new CreditAccount(100, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new7 = new CreditAccount(100, 0.02, 10000, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra7, new7, true);
-        System.out.println("Extra7" + "\n");
-
-        // Test Case must fail because it takes more time to pay-off using a minimum payment
-        CreditAccount extra8 = new CreditAccount(100, 0.20, 15000, "1234_1234_1234_1234", 2, 2025);
-        CreditAccount new8 = new CreditAccount(100, 0.15, 15000, "1234_1234_1234_1234", 2, 2025);
-        testExtra(extra8, new8, false);
-        System.out.println("Extra8" + "\n");
+        CreditAccount extra5 = new CreditAccount(2000, 0.19, 10000, "1234_1234_1234_1234", 2, 2025);
+        CreditAccount new5 = new CreditAccount(100, 0.075, 15000, "1234_1234_1234_1234", 2, 2025);
+        testExtra(extra5, new5, true);
 
         if (allTests) {
             System.out.println("\n**********TEST CASE EXTRA PASSED**********");
         }
-
     }   
 }

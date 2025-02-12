@@ -157,7 +157,7 @@ public class CreditAccount {
         return months;
     }
 
-    // Extra credit  TODO: third condition of transfer
+    // Extra credit
     public boolean transferAccount(CreditAccount transferTarget) {
         double balanceWithFee = this.balance * 1.01; 
 
@@ -165,29 +165,20 @@ public class CreditAccount {
             return false;
         }
 
-//        if (this.interestRate >= transferTarget.getInterestRate()) {
-//            return false;
-//        }
-//
-//        if ( (this.howLongToPayOff() / 2) >= transferTarget.howLongToPayOff()) {
-//            return false;
-//        }
+        transferTarget.balance += balanceWithFee;
+        double one = transferTarget.howLongToPayOff();
+        double two = 0.5 * this.howLongToPayOff();
+        transferTarget.balance -= balanceWithFee;
 
-        if (transferTarget.creditLimit > this.creditLimit &&
-                transferTarget.interestRate < this.interestRate &&
-                howLongToPayOff() < 0.5 * howLongToPayOff()) {
-
+        if (transferTarget.getCreditLimit() > this.creditLimit &&
+                transferTarget.getInterestRate() < this.interestRate &&
+                (one < two) ) {
             // Transfer the balance and pay off the original account
             transferTarget.balance += balanceWithFee;
-            this.balance = 0; // Original account is paid off
             return true;
         } else {
             return false;
             }
-//        transferTarget.setBalance(transferTarget.getBalance() + balanceWithFee);
-//        this.setBalance(0);
-
-//        return true;
     }
 
     @Override
